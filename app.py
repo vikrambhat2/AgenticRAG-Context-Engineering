@@ -4,7 +4,7 @@ import shutil
 from typing import List, Dict, Any, TypedDict
 from pathlib import Path
 import streamlit as st
-from langchain_groq import ChatGroq
+from langchain_ollama import ChatOllama
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.retrievers import ContextualCompressionRetriever
@@ -20,6 +20,7 @@ from langchain_community.document_loaders import (
 )
 from langgraph.graph import StateGraph, END
 import pickle
+import torch
 
 # State definition for the RAG pipeline
 class RAGState(TypedDict):
@@ -36,28 +37,24 @@ class RAGPipeline:
     """Advanced RAG Pipeline using LangGraph with Contextual Compression"""
     
     def __init__(self, 
-                 groq_api_key: str,
-                 model_name: str = "llama-3.3-70b-versatile",
+                 model_name: str = "llama3.2:latest",
                  embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"):
         
-        # Initialize LLMs
-        self.llm = ChatGroq(
-            groq_api_key=groq_api_key,
-            model_name=model_name,
+        # Initialize LLMs using ChatOllama
+        self.llm = ChatOllama(
+            model=model_name,
             temperature=0.1,
             max_tokens=2048
         )
         
-        # Separate LLM for compression (can use smaller/faster model)
-        self.compression_llm = ChatGroq(
-            groq_api_key=groq_api_key,
-            model_name="llama-3.3-70b-versatile",  # Faster model for compression
+        # Separate LLM for compression
+        self.compression_llm = ChatOllama(
+            model=model_name,
             temperature=0,
             max_tokens=1024
         )
-
-            # Determine device
-        import torch
+        
+        # Determine device
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         
         # Initialize HuggingFace embeddings with proper device handling
@@ -73,8 +70,6 @@ class RAGPipeline:
             },
             show_progress=False
         )
-        
-
         
         # Initialize components
         self.vectorstore = None
@@ -481,17 +476,10 @@ def main():
     with st.sidebar:
         st.header("⚙️ Configuration")
         
-        # API Key input
-        groq_api_key = st.text_input(
-            "Groq API Key",
-            type="password",
-            help="Enter your Groq API key"
-        )
-        
         # Model selection
         model_name = st.selectbox(
             "Select Model",
-            ["llama-3.3-70b-versatile", "llama-3.1-70b-versatile", "mixtral-8x7b-32768"],
+            ["llama3.2:latest", "llama3.3", "mistral"],
             help="Choose the LLM model for generation"
         )
         
@@ -539,14 +527,13 @@ def main():
         st.session_state.chat_history = []
     
     # Initialize RAG pipeline
-    if groq_api_key and st.session_state.rag_pipeline is None:
+    if st.session_state.rag_pipeline is None:
         try:
             with st.spinner("Initializing RAG pipeline..."):
                 # Set environment variable to avoid meta tensor issues
                 os.environ['TOKENIZERS_PARALLELISM'] = 'false'
                 
                 st.session_state.rag_pipeline = RAGPipeline(
-                    groq_api_key=groq_api_key,
                     model_name=model_name,
                     embedding_model=embedding_model
                 )
@@ -634,15 +621,13 @@ def main():
                     st.error(f"Error processing query: {str(e)}")
     
     else:
-        if not groq_api_key:
-            st.warning("Please enter your Groq API key in the sidebar.")
-        elif not st.session_state.vectorstore_ready:
+        if not st.session_state.vectorstore_ready:
             st.warning("Please upload and process documents first, or load an existing vectorstore.")
     
     # Instructions
     with st.expander("ℹ️ How to use this app"):
         st.markdown("""
-        1. **Enter your Groq API Key** in the sidebar
+        1. **Select an LLM model** in the sidebar
         2. **Upload documents** (PDF, DOCX, TXT, CSV) using the file uploader
         3. **Click 'Process Documents'** to create the knowledge base
         4. **Ask questions** about your documents in the chat interface
