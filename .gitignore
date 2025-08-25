@@ -1,0 +1,4 @@
+uv.lock
+advanced_rag_system.egg-info/*
+my_vectorstore/*
+.env

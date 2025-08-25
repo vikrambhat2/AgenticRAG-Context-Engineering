@@ -1,19 +1,19 @@
-# 🤖 Advanced RAG System with Contextual Compression
+# Advanced RAG System with Contextual Compression
 
 > Intelligent document Q&A system using LangGraph, contextual compression, and Streamlit
 
 
-## ✨ Features
+## Features
 
-- **📄 Multi-format Document Support**: Upload PDF, DOCX, TXT, and CSV files
-- **🧠 Contextual Compression**: Local LLM-powered document compression for better relevance
-- **🔄 LangGraph Workflow**: Robust pipeline with error handling and state management
-- **🚀 Local Embeddings**: HuggingFace embeddings - no external API needed
-- **💬 Interactive Chat**: Streamlit web interface with chat history
-- **💾 Persistent Storage**: Save and load vector databases
-- **📊 Rich Metadata**: Track compression ratios and query analytics
+- **Multi-format Document Support**: Upload PDF, DOCX, TXT, and CSV files
+- **Contextual Compression**: Local LLM-powered document compression for better relevance
+- **LangGraph Workflow**: Robust pipeline with error handling and state management
+- **Local Embeddings**: HuggingFace embeddings - no external API needed
+- **Interactive Chat**: Streamlit web interface with chat history
+- **Persistent Storage**: Save and load vector databases
+- **Rich Metadata**: Track compression ratios and query analytics
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 Document Upload → Text Chunking → Vector Embedding → Query Processing → 
@@ -27,10 +27,10 @@ Contextual Compression → Answer Generation → Source Attribution
 - **Workflow**: LangGraph
 - **Frontend**: Streamlit
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.9+
 
 
 ### Installation
@@ -56,10 +56,9 @@ streamlit run app.py
 
 Navigate to `http://localhost:8501` in your browser.
 
-## 📋 Usage
+## Usage
 
-
-2. **Select Models**: Choose your preferred LLM and embedding models
+1. **Select Models**: Choose your preferred LLM and embedding models
 3. **Upload Documents**: Drag and drop PDF, DOCX, TXT, or CSV files
 4. **Process Documents**: Click "Process Documents" to create the knowledge base
 5. **Ask Questions**: Use the chat interface to query your documents
@@ -125,7 +124,7 @@ AgenticRAG-Context-Engineering/
 - **Internal**: Knowledge base queries, policy lookup
 - **External**: Product documentation, troubleshooting
 
-## 🔒 Security & Privacy
+## Security & Privacy
 
 - **Local Processing**: Embeddings generated locally
 - **API Security**: Groq API calls are encrypted
@@ -133,7 +132,7 @@ AgenticRAG-Context-Engineering/
 - **No Data Retention**: Files not stored permanently
 
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -147,11 +146,11 @@ AgenticRAG-Context-Engineering/
 - Update documentation as needed
 - Use type hints where possible
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [LangChain](https://github.com/langchain-ai/langchain) - LLM framework
 - [LangGraph](https://github.com/langchain-ai/langgraph) - Workflow orchestration
@@ -159,13 +158,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Ollama](https://ollama.com/) - Fast LLM inference
 - [HuggingFace](https://huggingface.co/) - Embedding models
 
-## 📞 Support
+## Support
 
 - **Issues**: [GitHub Issues](https://github.com/vikrambhat2/AgenticRAG-Context-Engineering/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/vikrambhat2/AgenticRAG-Context-Engineering/discussions)
 - **Email**: vikrambhat249@gmail.com
 
-## ⭐ Star History
+## Star History
 
 If you find this project useful, please consider giving it a star! ⭐
 
